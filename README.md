@@ -70,7 +70,9 @@ financeflow/
 ├── static/            # CSS, JS, assets
 ├── manage.py
 ├── requirements.txt
+
 ✨ Future Enhancements
+
 📱 Mobile responsive UI
 
 📅 Recurring expense tracking
@@ -89,4 +91,4 @@ This project is open-source and available under the MIT License.
 
 📣 Author
 Developed by Rohith Prudhvi.
-📫 Connect on LinkedIn
+
