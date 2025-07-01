@@ -28,7 +28,9 @@ LOGIN_REDIRECT_URL = '/expenses/dashboard/'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['financeflow-r0c0.onrender.com',
+    'localhost',
+    '127.0.0.1',]
 
 
 
