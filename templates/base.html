@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceFlow</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3a86ff;
+            --secondary-color: #8338ec;
+            --accent-color: #ff006e;
+            --success-color: #38b000;
+            --warning-color: #ffbe0b;
+            --danger-color: #ff5252;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        
+        html, body {
+            height: 100%;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+        
+        /* Main Content */
+        .content-wrapper {
+            flex: 1 0 auto;
+            padding: 2rem 0;
+        }
+        
+        /* Form Styling */
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.08);
+            padding: 0.85rem 1rem;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(58, 134, 255, 0.15);
+            background-color: #fff;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            font-size: 0.95rem;
+        }
+        
+        .form-text {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Custom Form Elements */
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 0.15em;
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* Form Card Styling */
+        .card.form-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            background: #ffffff;
+            overflow: hidden;
+        }
+        
+        .card.form-card .card-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-bottom: none;
+            padding: 1.5rem;
+            color: white;
+        }
+        
+        .card.form-card .card-body {
+            padding: 2rem;
+        }
+        
+        /* Form Button Styling */
+        .btn-form-submit {
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+        }
+        
+        .btn-form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+        }
+        
+        /* Form Animation */
+        .form-animate-in {
+            animation: formSlideIn 0.5s ease-out;
+        }
+        
+        @keyframes formSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .navbar-brand i {
+            margin-right: 0.5rem;
+            color: var(--warning-color);
+        }
+
+        /* Responsive Navbar Styling */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+                padding: 1rem;
+                border-radius: 10px;
+                margin-top: 1rem;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            }
+
+            .navbar-collapse .btn {
+                display: block;
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            .navbar-collapse form {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+
+            .navbar-collapse form button {
+                width: 100%;
+            }
+
+            .navbar-collapse .btn-outline-light {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-collapse .btn:hover {
+                transform: none;
+                background: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
+            .navbar-collapse {
+                margin-top: 0.5rem;
+                padding: 0.75rem;
+            }
+        }
+        
+        /* Button Styling */
+        .btn {
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+        }
+        
+        .btn-primary:hover, .btn-primary:focus {
+            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+            border: none;
+        }
+        
+        .btn-outline-light {
+            border-width: 2px;
+        }
+        
+        /* Card Styling */
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-out;
+            background: white;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .card-header {
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background-color: rgba(0,0,0,0.02);
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-footer {
+            border-top: 1px solid rgba(0,0,0,0.05);
+            background-color: rgba(0,0,0,0.02);
+            padding: 1.25rem 1.5rem;
+        }
+        
+        /* Animation Styles */
+        .container {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Alert Styling */
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 1rem 1.5rem;
+            animation: shake 0.5s ease-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Progress Bar Styling */
+        .progress {
+            height: 0.8rem;
+            border-radius: 1rem;
+            background-color: #e2e8f0;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+        
+        .progress-bar {
+            border-radius: 1rem;
+            background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        }
+        
+        /* Badge Styling */
+        .badge {
+            padding: 0.5em 0.8em;
+            font-weight: 500;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar with improved styling and icon -->    
+    <nav class="navbar navbar-expand-lg navbar-dark animate__animated animate__fadeIn">
+        <div class="container py-2 animate__animated animate__fadeIn">
+            <a class="navbar-brand" href="{% url 'home' %}"><i class="fas fa-chart-line"></i>FinanceFlow</a>
+            <button class="navbar-toggler border-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarNav">
+                <div class="ms-auto d-flex flex-column flex-lg-row align-items-start">
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-outline-light me-2" href="{% url 'list_expenses' %}">
+                            <i class="fas fa-receipt me-2"></i>Expenses
+                        </a>
+                        <a class="btn btn-outline-light me-2" href="{% url 'dashboard' %}">
+                            <i class="fas fa-chart-pie me-2"></i>Dashboard
+                        </a>
+                        <a class="btn btn-outline-light me-2" href="{% url 'view_budgets' %}">
+                            <i class="fas fa-wallet me-2"></i>Budgets
+                        </a>
+                        <a class="btn btn-outline-light me-2" href="{% url 'view_goals' %}">
+                            <i class="fas fa-piggy-bank me-2"></i>Goals
+                        </a>
+                        <a class="btn btn-outline-light me-2">
+                            <i class="fas fa-user-circle me-1 text-primary"></i>{{ user.username }}
+                        </a>
+                        <form method="post" action="{% url 'logout' %}" class="d-inline-block ms-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-warning">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </button>
+                        </form>
+                        
+                    {% else %}
+                        <a class="btn btn-outline-light me-2" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                        <a class="btn btn-outline-warning" href="{% url 'signup' %}">
+                            <i class="fas fa-user-plus me-2"></i>Sign Up
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content wrapper to push footer down -->
+    <div class="content-wrapper">
+        <div class="container">
+            {% block content %}
+            <!-- Child templates will fill this -->
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Footer with fixed positioning at bottom -->
+    <footer class="footer mt-auto py-4 bg-light animate__animated animate__fadeIn">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; {{ now|date:"Y" }} FinanceFlow. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                    <div class="d-flex justify-content-center justify-content-md-end">
+                        <a href="#" class="text-decoration-none me-3 text-secondary"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-decoration-none me-3 text-secondary"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-decoration-none me-3 text-secondary"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-decoration-none text-secondary"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load expense_filters %}
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <!-- Edit Budget Header Section -->
+    <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <div class="mb-3 mb-md-0">
+                    <h1 class="h2 fw-bold mb-1">Edit Budget</h1>
+                    <p class="text-muted mb-0">Update your spending limits and categories</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 animate__animated animate__fadeInUp">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="{{ form.category.id_for_label }}" class="form-label fw-medium">Category</label>
+                                {{ form.category.errors }}
+                                {{ form.category|add_class:"form-select" }}
+                                <div class="form-text text-muted">Select the spending category for this budget</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="{{ form.limit.id_for_label }}" class="form-label fw-medium">Budget Limit</label>
+                                {{ form.limit.errors }}
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    {{ form.limit|add_class:"form-control" }}
+                                </div>
+                                <div class="form-text text-muted">Set the maximum amount you want to spend</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="{{ form.period.id_for_label }}" class="form-label fw-medium">Budget Period</label>
+                                {{ form.period.errors }}
+                                {{ form.period|add_class:"form-select" }}
+                                <div class="form-text text-muted">Choose how often this budget resets</div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'view_budgets' %}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

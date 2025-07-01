@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load expense_filters %}
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <!-- Budgets Header Section -->
+    <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <div class="mb-3 mb-md-0">
+                    <h1 class="h2 fw-bold mb-1">Your Budgets</h1>
+                    <p class="text-muted mb-0">Set limits and track your spending by category</p>
+                </div>
+                <div class="d-flex">
+                    <a href="{% url 'add_budget' %}" class="btn btn-primary animate__animated animate__pulse animate__repeat-2">
+                        <i class="fas fa-plus me-2"></i>Create Budget
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if alerts %}
+        <div class="alert alert-warning animate__animated animate__fadeIn shadow-sm mb-4">
+            <div class="d-flex">
+                <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3 d-flex align-items-center justify-content-center">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                </div>
+                <div>
+                    <h5 class="alert-heading mb-1">Budget Alerts</h5>
+                    <ul class="list-unstyled mb-0">
+                        {% for alert in alerts %}
+                        <li class="mb-1"><i class="fas fa-circle me-2 small"></i>{{ alert }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row g-4">
+        {% for budget in budgets %}
+            <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0|multiply:0.1 }}s">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden">
+                    <div class="position-absolute top-0 start-0 w-100 h-1" style="
+                        {% if budget.status == 'over' %}
+                            background: linear-gradient(90deg, #f87171 0%, #ef4444 100%);
+                        {% elif budget.status == 'warning' %}
+                            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+                        {% else %}
+                            background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
+                        {% endif %}
+                    "></div>
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle p-2 me-2" style="
+                                    {% if budget.status == 'over' %}
+                                        background-color: rgba(239, 68, 68, 0.1);
+                                    {% elif budget.status == 'warning' %}
+                                        background-color: rgba(245, 158, 11, 0.1);
+                                    {% else %}
+                                        background-color: rgba(16, 185, 129, 0.1);
+                                    {% endif %}
+                                ">
+                                    <i class="fas fa-tag text-{% if budget.status == 'over' %}danger{% elif budget.status == 'warning' %}warning{% else %}success{% endif %}"></i>
+                                </div>
+                                <h5 class="card-title mb-0 fw-bold">{{ budget.category }}</h5>
+                            </div>
+                            <span class="badge {% if budget.status == 'over' %}bg-danger{% elif budget.status == 'warning' %}bg-warning text-dark{% else %}bg-success{% endif %} rounded-pill px-3 py-2">
+                                <i class="fas {% if budget.status == 'over' %}fa-exclamation-circle{% elif budget.status == 'warning' %}fa-exclamation-triangle{% else %}fa-check-circle{% endif %} me-1"></i>
+                                {{ budget.status|title }}
+                            </span>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <div class="p-3 rounded-4" style="background-color: rgba(99, 102, 241, 0.05);">
+                                    <div class="text-muted small mb-1">Spent</div>
+                                    <div class="fw-bold h5 mb-0" style="
+                                        {% if budget.spent >= budget.limit %}
+                                            color: #ef4444;
+                                        {% elif budget.spent >= budget.limit|multiply:0.7 %}
+                                            color: #f59e0b;
+                                        {% elif budget.spent >= budget.limit|multiply:0.5 %}
+                                            color: #3b82f6;
+                                        {% else %}
+                                            color: #10b981;
+                                        {% endif %}
+                                    ">₹{{ budget.spent }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 rounded-4" style="background-color: rgba(99, 102, 241, 0.05);">
+                                    <div class="text-muted small mb-1">Limit</div>
+                                    <div class="fw-bold h5 mb-0">₹{{ budget.limit }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted small">{{ budget.percentage|floatformat:0 }}% used</span>
+                                <span class="small fw-bold">₹{{ budget.spent }} / ₹{{ budget.limit }}</span>
+                            </div>
+                            <div class="progress" style="height: 10px; border-radius: 20px; background-color: #f0f0f0; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                    role="progressbar"
+                                    style="width: {{ budget.percentage|floatformat:2 }}%; border-radius: 20px; 
+                                    {% if budget.percentage < 50 %}
+                                        background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
+                                    {% elif budget.percentage < 90 %}
+                                        background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+                                    {% else %}
+                                        background: linear-gradient(90deg, #f87171 0%, #ef4444 100%);
+                                    {% endif %}
+                                    box-shadow: 0 2px 4px 
+                                    {% if budget.percentage < 50 %}
+                                        rgba(16, 185, 129, 0.3)
+                                    {% elif budget.percentage < 90 %}
+                                        rgba(245, 158, 11, 0.3)
+                                    {% else %}
+                                        rgba(239, 68, 68, 0.3)
+                                    {% endif %};"
+                                    aria-valuenow="{{ budget.percentage|floatformat:2 }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="rounded-circle p-2 me-2" style="background-color: rgba(99, 102, 241, 0.1);">
+                                <i class="fas fa-sync-alt text-primary"></i>
+                            </div>
+                            <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+                                <i class="far fa-calendar-alt me-1"></i>{{ budget.reset_period }}
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'edit_budget' budget.id %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </a>
+                            <a href="{% url 'delete_budget' budget.id %}" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                <i class="fas fa-trash me-1"></i>Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 animate__animated animate__fadeIn">
+                <div class="card border-0 shadow-sm p-5 text-center">
+                    <div class="py-5">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-4 d-inline-block mb-4">
+                            <i class="fas fa-money-bill-wave fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">No Budgets Yet</h3>
+                        <p class="text-muted mb-4">Start managing your finances by creating budget limits for different spending categories.</p>
+                        <a href="{% url 'add_budget' %}" class="btn btn-lg btn-primary animate__animated animate__pulse animate__infinite animate__slower">
+                            <i class="fas fa-plus-circle me-2"></i>Create Your First Budget
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

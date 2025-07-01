@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <!-- Header Section -->
+    <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <div class="mb-3 mb-md-0">
+                    <h1 class="h2 fw-bold mb-1">Add New Expense</h1>
+                    <p class="text-muted mb-0">Track your spending by adding a new expense</p>
+                </div>
+                <div>
+                    <a href="{% url 'list_expenses' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Expenses
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-3">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-7">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden animate__animated animate__fadeInUp">
+                    <div class="card-body p-4 p-lg-5">
+                        <form method="post" enctype="multipart/form-data" class="animate__animated animate__fadeIn">
+                            {% csrf_token %}
+                            
+                            {% for field in form %}
+                            <div class="mb-4">
+                                <label for="{{ field.id_for_label }}" class="form-label fw-medium">{{ field.label }}</label>
+                                {% if field.errors %}
+                                <div class="text-danger small mb-2">
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ field.errors }}
+                                </div>
+                                {% endif %}
+                                {{ field }}
+                                {% if field.help_text %}
+                                <div class="form-text text-muted small mt-1">
+                                    <i class="fas fa-info-circle me-1"></i>{{ field.help_text }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg animate__animated animate__pulse animate__repeat-2">
+                                    <i class="fas fa-save me-2"></i>Save Expense
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Tips Card -->
+                <div class="card border-0 shadow-sm rounded-4 mt-4 bg-light">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-3">
+                            <i class="fas fa-lightbulb text-warning me-2"></i>Expense Tracking Tips
+                        </h5>
+                        <ul class="mb-0">
+                            <li class="mb-2">Add receipts to keep track of your purchases</li>
+                            <li class="mb-2">Categorize expenses properly for better insights</li>
+                            <li class="mb-2">Include notes for future reference</li>
+                            <li>Regular tracking leads to better financial habits</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

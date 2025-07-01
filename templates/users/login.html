@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="row g-0">
+                        <!-- Left side with illustration -->
+                        <div class="col-lg-5 d-none d-lg-block bg-primary position-relative" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);">
+                            <div class="position-absolute top-50 start-50 translate-middle text-center text-white p-4">
+                                <div class="animate__animated animate__fadeInUp">
+                                    <i class="fas fa-chart-line fa-3x mb-3"></i>
+                                    <h3 class="fw-bold">FinanceFlow</h3>
+                                    <p class="mb-0 opacity-75">Track expenses, set budgets, and achieve your financial goals</p>
+                                </div>
+                            </div>
+                            <!-- Decorative elements -->
+                            <div class="position-absolute bottom-0 start-0 w-100 overflow-hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" style="height: 60px; width: 100%;">
+                                    <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="#FFFFFF"></path>
+                                    <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="#FFFFFF"></path>
+                                    <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#FFFFFF"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <!-- Right side with login form -->
+                        <div class="col-lg-7">
+                            <div class="card-body p-4 p-lg-5">
+                                <div class="text-center mb-4 animate__animated animate__fadeInDown">
+                                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-3">
+                                        <i class="fas fa-lock fa-2x text-primary"></i>
+                                    </div>
+                                    <h2 class="fw-bold">Welcome Back</h2>
+                                    <p class="text-muted">Login to manage your finances</p>
+                                </div>
+
+                                <form method="post" class="animate__animated animate__fadeIn animate__delay-1s">
+                                    {% csrf_token %}
+                                    
+                                    {% for field in form %}
+                                    <div class="mb-4">
+                                        <label for="{{ field.id_for_label }}" class="form-label fw-medium">{{ field.label }}</label>
+                                        {% if field.errors %}
+                                        <div class="text-danger small mb-2">
+                                            <i class="fas fa-exclamation-circle me-1"></i>{{ field.errors }}
+                                        </div>
+                                        {% endif %}
+                                        {{ field }}
+                                        {% if field.help_text %}
+                                        <div class="form-text text-muted small mt-1">
+                                            <i class="fas fa-info-circle me-1"></i>{{ field.help_text }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                                            <label class="form-check-label text-muted" for="rememberMe">Remember me</label>
+                                        </div>
+                                        <a href="#" class="text-primary text-decoration-none">Forgot password?</a>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 mb-4">
+                                        <button type="submit" class="btn btn-primary btn-lg animate__animated animate__pulse animate__repeat-2">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="text-center">
+                                        <p class="mb-0">Don't have an account? <a href="{% url 'signup' %}" class="text-primary fw-medium"><i class="fas fa-user-plus me-1"></i>Sign up</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

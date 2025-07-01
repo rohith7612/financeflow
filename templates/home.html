@@ -1,0 +1,116 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <!-- Hero Section with Expense Tracking Focus -->
+    <div class="py-5 mb-5 bg-white rounded-4 shadow-sm">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 animate__animated animate__fadeInLeft">
+                    <h1 class="display-4 fw-bold mb-3" style="background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Track Every Expense</h1>
+                    <h2 class="h3 text-secondary mb-4">Take control of your spending habits</h2>
+                    <p class="lead mb-4">FinanceFlow helps you monitor where your money goes, set budgets, and achieve your financial goals with our powerful expense tracking tools.</p>
+                    <div class="d-grid gap-3 d-sm-flex mb-5">
+                        <a href="{% url 'add_expense' %}" class="btn btn-primary btn-lg px-4 py-3 animate__animated animate__pulse animate__infinite animate__slower">
+                            <i class="fas fa-plus-circle me-2"></i>Track New Expense
+                        </a>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-primary btn-lg px-4 py-3">
+                            <i class="fas fa-chart-line me-2"></i>View Dashboard
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block animate__animated animate__fadeInRight">
+                    <div class="position-relative">
+                        <div class="card border-0 shadow p-4 mb-4">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="rounded-circle p-3 bg-primary bg-opacity-10 me-3">
+                                    <i class="fas fa-bolt text-primary fa-2x"></i>
+                                </div>
+                                <h3 class="h4 mb-0">Quick Actions</h3>
+                            </div>
+                            <div class="d-grid gap-3">
+                                <a href="{% url 'list_expenses' %}" class="btn btn-light text-start p-3 rounded-3 shadow-sm">
+                                    <i class="fas fa-receipt me-2 text-primary"></i>View All Expenses
+                                </a>
+                                <a href="{% url 'view_budgets' %}" class="btn btn-light text-start p-3 rounded-3 shadow-sm">
+                                    <i class="fas fa-wallet me-2 text-success"></i>Manage Budgets
+                                </a>
+                                <a href="{% url 'view_goals' %}" class="btn btn-light text-start p-3 rounded-3 shadow-sm">
+                                    <i class="fas fa-piggy-bank me-2 text-warning"></i>Savings Goals
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section with Expense Focus -->
+    <div class="container mb-5">
+        <div class="text-center mb-5">
+            <h2 class="h2 fw-bold mb-3">Manage Your Finances Smarter</h2>
+            <p class="lead text-muted">Powerful tools to help you track expenses and achieve financial freedom</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4 animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle p-3 bg-primary bg-opacity-10 mb-4 d-inline-block">
+                            <i class="fas fa-receipt fa-2x text-primary"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Track Expenses</h3>
+                        <p class="text-muted mb-4">Record and categorize your daily expenses with ease. Get insights into your spending patterns and identify areas to save.</p>
+                        <a href="{% url 'add_expense' %}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Add Expense
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle p-3 bg-success bg-opacity-10 mb-4 d-inline-block">
+                            <i class="fas fa-wallet fa-2x text-success"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Set Budgets</h3>
+                        <p class="text-muted mb-4">Create and manage budgets to control your spending. Get alerts when you're approaching your limits.</p>
+                        <a href="{% url 'add_budget' %}" class="btn btn-success">
+                            <i class="fas fa-plus me-2"></i>Create Budget
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="rounded-circle p-3 bg-warning bg-opacity-10 mb-4 d-inline-block">
+                            <i class="fas fa-piggy-bank fa-2x text-warning"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Save Money</h3>
+                        <p class="text-muted mb-4">Set savings goals and track your progress over time. Visualize your journey to financial freedom.</p>
+                        <a href="{% url 'add_goal' %}" class="btn btn-warning text-white">
+                            <i class="fas fa-plus me-2"></i>Set Goal
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="bg-primary bg-opacity-10 py-5 rounded-4 animate__animated animate__fadeIn">
+        <div class="container text-center">
+            <h2 class="h2 fw-bold mb-4">Ready to take control of your finances?</h2>
+            <p class="lead mb-4">Start tracking your expenses today and see the difference it makes.</p>
+            <a href="{% url 'add_expense' %}" class="btn btn-lg btn-primary animate__animated animate__pulse animate__infinite animate__slower">
+                <i class="fas fa-plus-circle me-2"></i>Track Your First Expense
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- No custom JS needed for this page -->
+{% endblock %}

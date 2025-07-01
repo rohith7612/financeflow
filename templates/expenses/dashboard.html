@@ -1,0 +1,455 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <!-- Dashboard Header Section -->
+    <div class="bg-white rounded-4 shadow-sm p-4 mb-4 position-relative overflow-hidden">
+        <!-- Decorative left border -->
+        <div class="position-absolute top-0 bottom-0 start-0" style="width: 4px; background: linear-gradient(to bottom, #3b82f6, #1e40af);"></div>
+        
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <div class="mb-3 mb-md-0">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle p-2 me-3" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(30, 64, 175, 0.15));">
+                            <i class="fas fa-chart-pie text-primary"></i>
+                        </div>
+                        <div>
+                            <h1 class="h2 fw-bold mb-1">Expense Dashboard</h1>
+                            <p class="text-muted mb-0">Your financial overview at a glance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <a href="{% url 'add_expense' %}" class="btn btn-primary rounded-pill px-4 animate__animated animate__pulse animate__repeat-2">
+                        <i class="fas fa-plus me-2"></i>Add Expense
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Spending Overview Section -->
+        <div class="row g-4 mb-5">
+            <div class="col-12 animate__animated animate__fadeInUp">
+                <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden">
+                    <!-- Decorative top border -->
+                    <div class="position-absolute top-0 start-0 end-0" style="height: 4px; background: linear-gradient(to right, #3b82f6, #1e40af);"></div>
+                    
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="rounded-circle p-2 me-3" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(30, 64, 175, 0.15));">
+                                        <i class="fas fa-wallet text-primary"></i>
+                                    </div>
+                                    <h5 class="card-title mb-0">Total Spending</h5>
+                                </div>
+                                <h2 class="display-5 fw-bold mb-2" style="background: linear-gradient(to right, #3b82f6, #1e40af); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">₹{{ monthly_total }}</h2>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+                                        <i class="fas fa-calendar-alt me-1"></i>This Month
+                                    </span>
+                                    <span class="ms-3 badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2">
+                                        <i class="fas fa-chart-line me-1"></i>Monthly Overview
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-none d-md-block">
+                                <div class="text-end">
+                                    <div class="position-relative" style="height: 100px;">
+                                        <i class="fas fa-chart-line position-absolute" style="font-size: 100px; opacity: 0.05; right: 0; top: -20px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6 animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+            <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden">
+                <!-- Decorative top border -->
+                <div class="position-absolute top-0 start-0 end-0" style="height: 4px; background: linear-gradient(to right, #3b82f6, #1e40af);"></div>
+                
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle p-2 me-2" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(30, 64, 175, 0.15));">
+                                <i class="fas fa-chart-line text-primary"></i>
+                            </div>
+                            <h5 class="card-title mb-0 fw-bold">Expense Trends</h5>
+                        </div>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2">
+                            <i class="fas fa-calendar-week me-1"></i>Daily
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body pt-3">
+                    <div class="chart-container" style="position: relative; height:250px;">
+                        <canvas id="expenseTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
+            <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden">
+                <!-- Decorative top border -->
+                <div class="position-absolute top-0 start-0 end-0" style="height: 4px; background: linear-gradient(to right, #10b981, #047857);"></div>
+                
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle p-2 me-2" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(4, 120, 87, 0.15));">
+                                <i class="fas fa-chart-bar text-success"></i>
+                            </div>
+                            <h5 class="card-title mb-0 fw-bold">Category Breakdown</h5>
+                        </div>
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
+                            <i class="fas fa-tags me-1"></i>By Category
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body pt-3">
+                    <div class="chart-container" style="position: relative; height:250px;">
+                        <canvas id="categoryBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+            <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden">
+                <!-- Decorative top border -->
+                <div class="position-absolute top-0 start-0 end-0" style="height: 4px; background: linear-gradient(to right, #f59e0b, #d97706);"></div>
+                
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle p-2 me-2" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.15));">
+                                <i class="fas fa-chart-pie text-warning"></i>
+                            </div>
+                            <h5 class="card-title mb-0 fw-bold">Category Distribution</h5>
+                        </div>
+                        <a href="{% url 'list_expenses' %}" class="btn btn-sm btn-primary rounded-pill px-3">
+                            <i class="fas fa-list me-1"></i>View All
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body pt-3">
+                    <div class="chart-container" style="position: relative; height:250px;">
+                        <canvas id="categoryPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 animate__animated animate__fadeInUp" style="animation-delay: 0.7s">
+            <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden">
+                <!-- Decorative top border -->
+                <div class="position-absolute top-0 start-0 end-0" style="height: 4px; background: linear-gradient(to right, #8b5cf6, #6d28d9);"></div>
+                
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle p-2 me-2" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(109, 40, 217, 0.15));">
+                                <i class="fas fa-lightbulb text-purple" style="color: #8b5cf6;"></i>
+                            </div>
+                            <h5 class="card-title mb-0 fw-bold">Financial Insights</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-3">
+                    <div class="p-2">
+                        {% if category_data %}
+                            {% with top_category=category_data.0 %}
+                                <div class="mb-4 p-3 rounded-3" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(109, 40, 217, 0.05));">
+                                    <h6 class="text-muted mb-2"><i class="fas fa-crown me-2 text-warning"></i>Top Spending Category</h6>
+                                    <div class="d-flex align-items-center">
+                                        <div class="p-2 rounded-circle me-3" style="background-color: rgba(59, 130, 246, 0.2);">
+                                            <i class="fas fa-tag text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0 fw-bold">{{ top_category.category }}</h5>
+                                            <p class="mb-0" style="color: #3b82f6;">₹{{ top_category.total }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        {% endif %}
+                        
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <div class="p-3 rounded-3 h-100" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(4, 120, 87, 0.05));">
+                                    <h6 class="text-muted mb-2"><i class="fas fa-tags me-2 text-success"></i>Total Categories</h6>
+                                    <h5 class="mb-0 fw-bold">{{ category_data|length }}</h5>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 rounded-3 h-100" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(217, 119, 6, 0.05));">
+                                    <h6 class="text-muted mb-2"><i class="fas fa-calculator me-2 text-warning"></i>Avg Per Category</h6>
+                                    <h5 class="mb-0 fw-bold">₹{{ avg_per_category }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <a href="{% url 'add_expense' %}" class="btn btn-outline-primary rounded-pill px-4">
+                                <i class="fas fa-plus me-2"></i>Add New Expense
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Expense Trend Chart
+    var ctx = document.getElementById('expenseTrendChart').getContext('2d');
+    var expenseTrendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [{% for item in daily_expense_data %}'{{ item.day }}',{% empty %}'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'{% endfor %}],
+            datasets: [{
+                label: 'Daily Expenses',
+                data: [{% for item in daily_expense_data %}{{ item.total|default:0 }},{% empty %}0,0,0,0,0,0,0{% endfor %}],
+                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                borderColor: 'rgba(59, 130, 246, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 1,
+                pointRadius: 4,
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        drawBorder: false,
+                        color: 'rgba(200, 200, 200, 0.15)',
+                    },
+                    ticks: {
+                        font: {
+                            size: 12,
+                        },
+                        callback: function(value) {
+                            return '₹' + value;
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false,
+                        drawBorder: false,
+                    },
+                    ticks: {
+                        font: {
+                            size: 12,
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    padding: 10,
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            return 'Amount: ₹' + context.parsed.y.toFixed(2);
+                        }
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            }
+        }
+    });
+
+    // Category Bar Chart
+    var ctxBar = document.getElementById('categoryBarChart').getContext('2d');
+    var categoryBarChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: [{% for item in category_data %}'{{ item.category }}',{% empty %}'No Data'{% endfor %}],
+            datasets: [{
+                label: 'Amount Spent',
+                data: [{% for item in category_data %}{{ item.total }},{% empty %}0{% endfor %}],
+                backgroundColor: [  
+                    'rgba(59, 130, 246, 0.7)',
+                    'rgba(16, 185, 129, 0.7)',
+                    'rgba(245, 158, 11, 0.7)',
+                    'rgba(239, 68, 68, 0.7)',
+                    'rgba(139, 92, 246, 0.7)',
+                    'rgba(236, 72, 153, 0.7)',
+                    'rgba(249, 115, 22, 0.7)',
+                    'rgba(14, 165, 233, 0.7)',
+                ],
+                borderColor: [  
+                    'rgba(59, 130, 246, 1)',
+                    'rgba(16, 185, 129, 1)',
+                    'rgba(245, 158, 11, 1)',
+                    'rgba(239, 68, 68, 1)',
+                    'rgba(139, 92, 246, 1)',
+                    'rgba(236, 72, 153, 1)',
+                    'rgba(249, 115, 22, 1)',
+                    'rgba(14, 165, 233, 1)',
+                ],
+                borderWidth: 1,
+                borderRadius: 6,
+                maxBarThickness: 25,
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: {
+                        drawBorder: false,
+                        color: 'rgba(200, 200, 200, 0.15)',
+                    },
+                    ticks: {
+                        font: {
+                            size: 12,
+                        },
+                        callback: function(value) {
+                            return '₹' + value;
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        display: false,
+                        drawBorder: false,
+                    },
+                    ticks: {
+                        font: {
+                            size: 12,
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    padding: 10,
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            return 'Amount: ₹' + context.parsed.x.toFixed(2);
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Category Pie Chart
+    var ctxPie = document.getElementById('categoryPieChart').getContext('2d');
+    var categoryPieChart = new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+            labels: [{% for item in category_data %}'{{ item.category }}',{% empty %}'No Data'{% endfor %}],
+            datasets: [{
+                label: 'Expense Distribution',
+                data: [{% for item in category_data %}{{ item.total }},{% empty %}0{% endfor %}],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.8)',
+                    'rgba(16, 185, 129, 0.8)',
+                    'rgba(245, 158, 11, 0.8)',
+                    'rgba(239, 68, 68, 0.8)',
+                    'rgba(139, 92, 246, 0.8)',
+                    'rgba(236, 72, 153, 0.8)',
+                    'rgba(249, 115, 22, 0.8)',
+                    'rgba(14, 165, 233, 0.8)',
+                ],
+                borderColor: '#fff',
+                borderWidth: 2,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        padding: 20,
+                        boxWidth: 12,
+                        font: {
+                            size: 12,
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    padding: 10,
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed || 0;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return label + ': ₹' + value + ' (' + percentage + '%)';
+                        }
+                    }
+                }
+            },
+            cutout: '65%',
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    });
+  });
+</script>
+{% endblock extra_js %}
